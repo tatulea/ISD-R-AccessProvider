@@ -138,7 +138,7 @@ class IsdrAccessProvider  : ContentProvider() {
                 while (transmitRsp!!.isMore) {
                     transmitRsp = Response(transmit.invoke(tm, PHYSICAL_SLOT_NUM, openRsp.channel,
                             GET_RESPONSE_CLA, GET_RESPONSE_INS, GET_RESPONSE_P1, GET_RESPONSE_P2,
-                            if (transmitRsp.sw2 == "00") 0x100 else transmitRsp.sw2, "") as String?)
+                            if (transmitRsp.sw2 == "00") 0x100 else transmitRsp.sw2.toInt(16), "") as String?)
                     builder.append(transmitRsp.data)
                 }
                 builder.append(transmitRsp.sw)
@@ -146,6 +146,7 @@ class IsdrAccessProvider  : ContentProvider() {
                 cursor.addRow(arrayOf(builder.toString()))
                 return cursor
             } catch (ex : Exception) {
+                cursor.addRow(arrayOf((ex.toString())))
             } finally {
                 close.invoke(tm, PHYSICAL_SLOT_NUM, openRsp.channel)
             }

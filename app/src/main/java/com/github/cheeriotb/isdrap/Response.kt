@@ -37,6 +37,8 @@ class Response(response: String?) {
     val isOk: Boolean =
             // Refer to the clause 10.2.1.1 Normal processing in ETSI TS 102 221.
             when (sw.substring(0, 2)) {
+                "61" -> true /* Normal ending of the command, there is more data to
+                                be read from UICC */
                 "90" -> true /* Normal ending of the command */
                 "91" -> true /* Normal ending of the command, with extra information
                                 from the proactive UICC containing a command for the terminal.
